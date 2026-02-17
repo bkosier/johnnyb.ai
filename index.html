@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Johnny B AI - Mississippi-Based OpenClaw Assistant</title>
+    <meta name="description" content="Your personal AI bot powered by OpenClaw, handling tasks from Biloxi to beyond.">
+    <style>
+        :root { --bg: #121212; --text: #e0e0e0; --accent: #ff4500; --secondary: #1e1e1e; }
+        body { margin: 0; font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+        header { position: sticky; top: 0; background: var(--secondary); padding: 1rem; z-index: 10; }
+        nav ul { list-style: none; display: flex; justify-content: center; gap: 2rem; margin: 0; padding: 0; }
+        nav a { color: var(--text); text-decoration: none; transition: color 0.3s; }
+        nav a:hover { color: var(--accent); }
+        section { padding: 4rem 2rem; max-width: 1200px; margin: auto; }
+        #hero { background: url('https://miro.medium.com/v2/resize:fit:1200/1*6XlY8y4DD8RjlG8o0VvB-A.png') center/cover no-repeat; height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; position: relative; }
+        #hero::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); }
+        #hero div { position: relative; z-index: 1; }
+        #hero h1 { font-size: 3rem; margin: 0; }
+        #hero p { font-size: 1.5rem; }
+        .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; }
+        .feature { background: var(--secondary); padding: 1rem; border-radius: 8px; }
+        form { display: grid; gap: 1rem; max-width: 600px; margin: auto; }
+        input, textarea, button { padding: 0.75rem; border: none; border-radius: 4px; background: var(--secondary); color: var(--text); }
+        button { background: var(--accent); cursor: pointer; transition: background 0.3s; }
+        button:hover { background: #cc3700; }
+        footer { text-align: center; padding: 1rem; background: var(--secondary); }
+        @media (max-width: 768px) { #hero h1 { font-size: 2rem; } section { padding: 2rem 1rem; } }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="#hero">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#how">How It Works</a></li>
+                <li><a href="#faq">FAQ</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+    <section id="hero">
+        <div>
+            <h1>Johnny B AI</h1>
+            <p>Your Mississippi-Based OpenClaw Assistant: Smart, Reliable, Lobster-Tough</p>
+        </div>
+    </section>
+    <section id="about">
+        <h2>About Johnny B</h2>
+        <p>Built on the open-source OpenClaw framework, Johnny B is my personal AI assistant from Biloxi, Mississippi. It handles everyday tasks via chat apps, drawing from Gulf Coast grit to "exfoliate" your to-do list. Whether clearing inboxes or scheduling flights, it's your local AI sidekick.</p>
+    </section>
+    <section id="features">
+        <h2>Key Features</h2>
+        <div class="features">
+            <div class="feature"><h3>Email & Calendar</h3><p>Auto-manages messages, sends replies, books events.</p></div>
+            <div class="feature"><h3>Research & Tasks</h3><p>Digs up info, orders groceries, negotiates deals.</p></div>
+            <div class="feature"><h3>Chat Integration</h3><p>Works on WhatsApp, Telegram, Slack—anywhere you chat.</p></div>
+            <div class="feature"><h3>Custom Skills</h3><p>Open-source community extensions for personalized automation.</p></div>
+        </div>
+    </section>
+    <section id="how">
+        <h2>How It Works</h2>
+        <ol>
+            <li>Set up OpenClaw on your device (follow GitHub guide).</li>
+            <li>Connect to chat apps.</li>
+            <li>Message Johnny B: "Book flight to Jackson" or "Summarize news."</li>
+            <li>It runs 24/7, autonomously if needed.</li>
+        </ol>
+        <p>Edge case: For privacy, it runs locally—no cloud snooping.</p>
+    </section>
+    <section id="faq">
+        <h2>FAQ</h2>
+        <details><summary>Is it secure?</summary><p>Yes, open-source and local; use VirusTotal-integrated skills.</p></details>
+        <details><summary>Costs?</summary><p>Free core; API calls (e.g., Claude) may incur fees.</p></details>
+        <details><summary>Mississippi-specific?</summary><p>Tailored for local needs like weather alerts or Gulf events.</p></details>
+    </section>
+    <section id="contact">
+        <h2>Get in Touch</h2>
+        <form action="https://formspree.io/your-email" method="POST"> <!-- Replace with your Formspree/equivalent -->
+            <input type="text" name="name" placeholder="Your Name" required>
+            <input type="email" name="email" placeholder="Your Email" required>
+            <textarea name="message" placeholder="Message" required></textarea>
+            <button type="submit">Send</button>
+        </form>
+    </section>
+    <footer>
+        <p>&copy; 2026 Brad Kosier. Powered by OpenClaw. <a href="https://openclaw.ai">Learn More</a></p>
+    </footer>
+    <script> // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) { e.preventDefault(); document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' }); });
+        });
+    </script>
+</body>
+</html>
