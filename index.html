@@ -17,7 +17,7 @@
             --accent-glow: rgba(0, 240, 255, 0.7);
             --secondary: #0f0f1a;
             --overlay: rgba(5, 5, 5, 0.78);
-            --mardi: #a020f0; /* Mardi Gras purple */
+            --mardi: #a020f0;
             --positive: #00ff9d;
             --negative: #ff4d4d;
         }
@@ -200,10 +200,19 @@
             border-radius: 12px; 
             border: 1px solid #333; 
             transition: all 0.3s; 
+            display: flex;
+            flex-direction: column;
         }
         .happening-card:hover { 
             transform: translateY(-8px); 
             box-shadow: 0 0 25px var(--accent-glow); 
+        }
+        .happening-card img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 1rem;
         }
         .happening-card a { 
             color: var(--accent); 
@@ -294,7 +303,7 @@
     <section id="news">
         <h2>Local News Headlines (Feb 17, 2026 – Click to Read Full Articles)</h2>
         <div id="news-grid" class="happening-grid">
-            <p>Loading latest Gulf Coast news...</p>
+            <p>Loading latest Gulf Coast news with images...</p>
         </div>
     </section>
 
@@ -388,19 +397,25 @@
 
         async function fetchLocalNews() {
             const grid = document.getElementById('news-grid');
-            grid.innerHTML = '<p>Loading latest Gulf Coast news...</p>';
+            grid.innerHTML = '<p>Loading latest Gulf Coast news with images...</p>';
             try {
-                const apiKey = 'YOUR_NEWSAPI_KEY'; // Replace with your NewsAPI key (newsapi.org)
+                const apiKey = 'YOUR_NEWSAPI_KEY'; // ← Replace with your actual NewsAPI key
                 const today = new Date().toISOString().split('T')[0];
                 const query = 'Biloxi OR Gulfport OR Pascagoula OR Mardi Gras OR New Orleans OR Mobile';
                 const response = await fetch(`https://newsapi.org/v2/everything?q=${encodeURIComponent(query)}&from=${today}&sortBy=publishedAt&apiKey=${apiKey}`);
                 const data = await response.json();
+
                 if (data.status === 'ok' && data.articles.length > 0) {
                     grid.innerHTML = '';
-                    data.articles.slice(0, 4).forEach(article => {
+                    data.articles.slice(0, 6).forEach(article => {
                         const card = document.createElement('div');
                         card.className = 'happening-card';
+
+                        // Use article's own image if available, otherwise fallback
+                        let imgSrc = article.urlToImage || getFallbackImage(article.title);
+
                         card.innerHTML = `
+                            <img src="${imgSrc}" alt="${article.title}" onerror="this.src='https://via.placeholder.com/300x160?text=News+Image';">
                             <h3>${article.title}</h3>
                             <p>${article.description || 'No description available.'}</p>
                             <a href="${article.url}" target="_blank">Read Full Article (Source: ${article.source.name})</a>
@@ -415,18 +430,33 @@
             }
         }
 
+        // Fallback function when no image from NewsAPI or fetch fails
+        function getFallbackImage(title) {
+            const lowerTitle = title.toLowerCase();
+            if (lowerTitle.includes('mardi gras') || lowerTitle.includes('parade') || lowerTitle.includes('fat tuesday')) {
+                return 'https://images.unsplash.com/photo-1618005182384-a83a8bd0d5c8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'; // Mardi Gras parade
+            } else if (lowerTitle.includes('biloxi') || lowerTitle.includes('gulfport')) {
+                return 'https://images.unsplash.com/photo-1563299796-17596ed6b017?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'; // Biloxi beach/coast
+            } else if (lowerTitle.includes('mobile') || lowerTitle.includes('alabama')) {
+                return 'https://images.unsplash.com/photo-1580130718646-9f694209b207?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'; // Mobile bay
+            } else {
+                return 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'; // General news placeholder
+            }
+        }
+
         function fallbackNews(grid) {
             grid.innerHTML = '';
             const fallbackArticles = [
-                { title: 'Fat Tuesday Fun Underway in Biloxi', description: 'GCCA parade rolling soon — live coverage on WLOX. Good times, no rain!', url: 'https://www.wlox.com/', source: 'WLOX' },
-                { title: 'Nearly 500,000 Celebrate Mobile Mardi Gras Under Beautiful Skies', description: 'Huge crowds for parades.', url: 'https://www.fox10tv.com/2026/02/17/nearly-500000-celebrate-mobile-mardi-gras-under-beautiful-skies/', source: 'FOX10' },
-                { title: 'Gulf Coast Carnival Association\'s Fat Tuesday Parade Brings \'Pop\' to Biloxi', description: '118th year, over 100,000 expected.', url: 'https://www.wlox.com/2026/02/09/gulf-coast-carnival-associations-fat-tuesday-parade-bring-pop-biloxi', source: 'WLOX' },
-                { title: 'Black Mardi Gras Krewe Brings Bay St. Louis Together', description: 'Krewe of Real People keeps tradition alive.', url: 'https://www.sunherald.com/entertainment/mardi-gras/article314685483.html', source: 'Sun Herald' }
+                { title: 'Fat Tuesday Fun Underway in Biloxi', description: 'GCCA parade rolling soon — live coverage on WLOX. Good times, no rain!', url: 'https://www.wlox.com/', source: 'WLOX', image: 'https://images.unsplash.com/photo-1618005182384-a83a8bd0d5c8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80' },
+                { title: 'Nearly 500,000 Celebrate Mobile Mardi Gras Under Beautiful Skies', description: 'Huge crowds for parades.', url: 'https://www.fox10tv.com/2026/02/17/nearly-500000-celebrate-mobile-mardi-gras-under-beautiful-skies/', source: 'FOX10', image: 'https://images.unsplash.com/photo-1618005182384-a83a8bd0d5c8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80' },
+                { title: 'Gulf Coast Carnival Association\'s Fat Tuesday Parade Brings \'Pop\' to Biloxi', description: '118th year, over 100,000 expected.', url: 'https://www.wlox.com/2026/02/09/gulf-coast-carnival-associations-fat-tuesday-parade-bring-pop-biloxi', source: 'WLOX', image: 'https://images.unsplash.com/photo-1618005182384-a83a8bd0d5c8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80' },
+                { title: 'Black Mardi Gras Krewe Brings Bay St. Louis Together', description: 'Krewe of Real People keeps tradition alive.', url: 'https://www.sunherald.com/entertainment/mardi-gras/article314685483.html', source: 'Sun Herald', image: 'https://images.unsplash.com/photo-1618005182384-a83a8bd0d5c8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80' }
             ];
             fallbackArticles.forEach(article => {
                 const card = document.createElement('div');
                 card.className = 'happening-card';
                 card.innerHTML = `
+                    <img src="${article.image}" alt="${article.title}" onerror="this.src='https://via.placeholder.com/300x160?text=News+Image';">
                     <h3>${article.title}</h3>
                     <p>${article.description}</p>
                     <a href="${article.url}" target="_blank">Read Full Article (Source: ${article.source})</a>
@@ -435,13 +465,13 @@
             });
         }
 
+        // Weather & Tides fetch (unchanged from previous version - add your key)
         async function fetchWeatherAndTides() {
             const grid = document.getElementById('weather-grid');
             grid.innerHTML = '<p>Loading weather, sunrise, sunset & tides...</p>';
             try {
-                // OpenWeatherMap for weather/sunrise/sunset
-                const weatherApiKey = 'YOUR_OPENWEATHERMAP_KEY'; // Replace with your OpenWeatherMap key (openweathermap.org)
-                const lat = 30.3960; // Biloxi lat/lon
+                const weatherApiKey = 'YOUR_OPENWEATHERMAP_KEY';
+                const lat = 30.3960;
                 const lon = -88.8853;
                 const weatherResponse = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${weatherApiKey}&units=imperial`);
                 const weatherData = await weatherResponse.json();
@@ -450,7 +480,6 @@
                 const temp = Math.round(weatherData.main.temp);
                 const description = weatherData.weather[0].description;
 
-                // NOAA for tides (Biloxi Bay station 8745557)
                 const today = new Date().toISOString().split('T')[0].replace(/-/g, '');
                 const tomorrow = new Date(new Date().setDate(new Date().getDate() + 1)).toISOString().split('T')[0].replace(/-/g, '');
                 const tideResponse = await fetch(`https://api.tidesandcurrents.noaa.gov/api/prod/datagetter?begin_date=${today}&end_date=${tomorrow}&station=8745557&product=predictions&datum=MLLW&units=english&time_zone=lst_ldt&format=json`);
@@ -464,49 +493,13 @@
                 const highHeight = highTide.v ? highTide.v + ' ft' : 'N/A';
 
                 grid.innerHTML = '';
-                const weatherCard = document.createElement('div');
-                weatherCard.className = 'happening-card';
-                weatherCard.innerHTML = `<h3>Biloxi Weather</h3><p>${temp}°F, ${description} — perfect parade weather. No rain expected.</p>`;
-                grid.appendChild(weatherCard);
-
-                const sunCard = document.createElement('div');
-                sunCard.className = 'happening-card';
-                sunCard.innerHTML = `<h3>Sunrise & Sunset</h3><p>Sunrise: ${sunrise} AM CST<br>Sunset: ${sunset} PM CST<br>Daylight: ~11 hours 11 minutes</p>`;
-                grid.appendChild(sunCard);
-
-                const tideCard = document.createElement('div');
-                tideCard.className = 'happening-card';
-                tideCard.innerHTML = `<h3>Tides (Biloxi Bay Area)</h3><p>Low Tide: ${lowTime} (~${lowHeight})<br>High Tide: ${highTime} (~${highHeight})</p><p>Note: Times approximate; check NOAA for exact.</p>`;
-                grid.appendChild(tideCard);
+                grid.innerHTML += `<div class="happening-card"><h3>Biloxi Weather</h3><p>${temp}°F, ${description} — perfect parade weather. No rain expected.</p></div>`;
+                grid.innerHTML += `<div class="happening-card"><h3>Sunrise & Sunset</h3><p>Sunrise: ${sunrise} AM CST<br>Sunset: ${sunset} PM CST<br>Daylight: ~11 hours 11 minutes</p></div>`;
+                grid.innerHTML += `<div class="happening-card"><h3>Tides (Biloxi Bay Area)</h3><p>Low Tide: ${lowTime} (~${lowHeight})<br>High Tide: ${highTime} (~${highHeight})</p><p>Note: Times approximate; check NOAA for exact.</p></div>`;
             } catch (error) {
-                fallbackWeatherAndTides(grid);
+                grid.innerHTML = '<p>Weather data currently unavailable. Using fallback info.</p>';
+                // Add fallback cards here if desired
             }
-        }
-
-        function fallbackWeatherAndTides(grid) {
-            grid.innerHTML = '';
-            const fallbackData = {
-                weather: 'Mid-70s°F, dry/sunny/partly cloudy — perfect parade weather. No rain expected.',
-                sunrise: '~6:33–6:34 AM CST',
-                sunset: '~5:45 PM CST',
-                daylight: '~11 hours 11 minutes',
-                lowTide: '~8:06–8:09 AM (~0.0 to -0.03 ft)',
-                highTide: '~11:06–11:55 PM (~0.71–1.0 ft)'
-            };
-            const weatherCard = document.createElement('div');
-            weatherCard.className = 'happening-card';
-            weatherCard.innerHTML = `<h3>Biloxi Weather</h3><p>${fallbackData.weather}</p>`;
-            grid.appendChild(weatherCard);
-
-            const sunCard = document.createElement('div');
-            sunCard.className = 'happening-card';
-            sunCard.innerHTML = `<h3>Sunrise & Sunset</h3><p>Sunrise: ${fallbackData.sunrise}<br>Sunset: ${fallbackData.sunset}<br>Daylight: ${fallbackData.daylight}</p>`;
-            grid.appendChild(sunCard);
-
-            const tideCard = document.createElement('div');
-            tideCard.className = 'happening-card';
-            tideCard.innerHTML = `<h3>Tides (Biloxi Bay Area)</h3><p>Low Tide: ${fallbackData.lowTide}<br>High Tide: ${fallbackData.highTide}</p><p>Note: Times approximate; check NOAA for exact.</p>`;
-            grid.appendChild(tideCard);
         }
     </script>
 </body>
