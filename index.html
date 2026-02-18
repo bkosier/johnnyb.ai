@@ -472,7 +472,7 @@
             const grid = document.getElementById('news-grid');
             grid.innerHTML = '<p class="loading-placeholder">Updating news...</p>';
             try {
-                const apiKey = '0558581fae2f44b3ba3d19561003a3ef';
+                const apiKey = 'd1936c782ab2cf357102934ec9f0d18f';
                 const today = new Date().toISOString().split('T')[0];
                 const query = 'Biloxi OR Gulfport OR Pascagoula OR Mardi Gras OR New Orleans OR Mobile';
                 const url = `https://newsapi.org/v2/everything?q=${encodeURIComponent(query)}&from=${today}&sortBy=publishedAt&apiKey=${apiKey}`;
@@ -551,3 +551,4 @@
     </script>
 </body>
 </html>
+
