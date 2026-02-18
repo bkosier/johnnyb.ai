@@ -228,27 +228,6 @@
             margin-top: 0.8rem; 
             font-weight: bold; 
         }
-        .loading-placeholder {
-            text-align: center;
-            padding: 3rem 1rem;
-            color: var(--accent);
-            font-style: italic;
-            min-height: 200px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        button.refresh-btn {
-            margin: 1.5rem auto;
-            display: block;
-            padding: 0.8rem 2rem;
-            background: var(--accent);
-            color: #000;
-            border: none;
-            border-radius: 8px;
-            font-weight: bold;
-            cursor: pointer;
-        }
         footer { 
             text-align: center; 
             padding: 4rem 1rem; 
@@ -331,13 +310,27 @@
     <section id="news">
         <h2>Local News Headlines (Feb 17, 2026 – Click to Read)</h2>
         <div id="news-grid" class="happening-grid"></div>
-        <button onclick="fetchLocalNews()" class="refresh-btn">Refresh News</button>
+        <button onclick="populateFallbackNews()" class="refresh-btn">Show News Cards</button>
     </section>
 
     <section id="weather">
         <h2>Weather, Sunrise, Sunset & Tides Today (Biloxi Focus – Feb 17, 2026)</h2>
-        <div id="weather-grid" class="happening-grid"></div>
-        <button onclick="fetchWeatherAndTides()" class="refresh-btn">Refresh Weather & Tides</button>
+        <div id="weather-grid" class="happening-grid">
+            <div class="happening-card">
+                <h3>Biloxi Weather</h3>
+                <p>Mid-70s°F, dry/sunny/partly cloudy — perfect parade weather. No rain expected.</p>
+            </div>
+            <div class="happening-card">
+                <h3>Sunrise & Sunset</h3>
+                <p>Sunrise: ~6:33–6:34 AM CST<br>Sunset: ~5:45 PM CST<br>Daylight: ~11 hours 11 minutes</p>
+            </div>
+            <div class="happening-card">
+                <h3>Tides (Biloxi Bay Area)</h3>
+                <p>Low Tide: ~8:06–8:09 AM (~0.0 to -0.03 ft)<br>High Tide: ~11:06–11:55 PM (~0.71–1.0 ft)</p>
+                <p>Note: Times approximate; check NOAA for exact station data.</p>
+            </div>
+        </div>
+        <button onclick="alert('Weather data coming soon – key activation in progress. Use fallback for now.')" class="refresh-btn">Refresh Weather (Coming Soon)</button>
     </section>
 
     <section id="tips">
@@ -415,11 +408,9 @@
             document.getElementById('chat-input').value = '';
         });
 
-        // Load fallback content first to avoid white/empty state
+        // Load fallback content immediately
         window.addEventListener('load', () => {
             populateFallbackNews();
-            fetchWeatherAndTides();
-            fetchLocalNews(); // attempt live fetch
         });
 
         function populateFallbackNews() {
@@ -448,96 +439,8 @@
             });
         }
 
-        async function fetchLocalNews() {
-            const grid = document.getElementById('news-grid');
-            try {
-                const apiKey = 'd1936c782ab2cf357102934ec9f0d18f';
-                const today = new Date().toISOString().split('T')[0];
-                const query = 'Biloxi OR Gulfport OR Pascagoula OR "Mardi Gras" OR "New Orleans" OR Mobile lang:en';
-                const url = `https://gnews.io/api/v4/search?q=${encodeURIComponent(query)}&from=${today}&lang=en&country=us&max=6&apikey=${apiKey}`;
-                const response = await fetch(url, { signal: AbortSignal.timeout(10000) });
-                if (!response.ok) throw new Error(`GNews ${response.status}`);
-                const data = await response.json();
-
-                if (data.articles && data.articles.length > 0) {
-                    grid.innerHTML = '';
-                    data.articles.forEach(article => {
-                        const card = document.createElement('div');
-                        card.className = 'happening-card';
-
-                        let imgSrc = article.image || getFallbackImage(article.title);
-
-                        card.innerHTML = `
-                            <div class="news-img-container">
-                                <img src="${imgSrc}" alt="${article.title || 'Gulf Coast news'}" loading="lazy" 
-                                     onerror="this.src='https://via.placeholder.com/320x180?text=News+Image'; this.alt='Fallback image';">
-                            </div>
-                            <div class="card-content">
-                                <h3>${article.title || 'Untitled'}</h3>
-                                <p>${article.description || 'No description available.'}</p>
-                                <a href="${article.url}" target="_blank">Read Full Article (Source: ${article.source?.name || 'GNews'})</a>
-                            </div>
-                        `;
-                        grid.appendChild(card);
-                    });
-                }
-            } catch (error) {
-                console.error('News fetch error:', error);
-                // Keep fallback content
-            }
-        }
-
-        function getFallbackImage(title) {
-            const t = (title || '').toLowerCase();
-            if (t.includes('mardi gras') || t.includes('parade') || t.includes('fat tuesday')) {
-                return 'https://images.unsplash.com/photo-1618005182384-a83a8bd0d5c8?auto=format&fit=crop&w=800&q=80';
-            }
-            if (t.includes('biloxi') || t.includes('gulfport') || t.includes('mississippi')) {
-                return 'https://images.unsplash.com/photo-1563299796-17596ed6b017?auto=format&fit=crop&w=800&q=80';
-            }
-            if (t.includes('mobile') || t.includes('alabama')) {
-                return 'https://images.unsplash.com/photo-1580130718646-9f694209b207?auto=format&fit=crop&w=800&q=80';
-            }
-            return 'https://via.placeholder.com/320x180?text=News+Image';
-        }
-
-        // Weather & Tides fetch
-        async function fetchWeatherAndTides() {
-            const grid = document.getElementById('weather-grid');
-            grid.innerHTML = '<p class="loading-placeholder">Updating weather & tides...</p>';
-            try {
-                const weatherApiKey = '021c238d88874c0fd6ddd743196361ee';
-                const lat = 30.3960;
-                const lon = -88.8853;
-                const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${weatherApiKey}&units=imperial`;
-                const weatherResponse = await fetch(weatherUrl, { signal: AbortSignal.timeout(10000) });
-                if (!weatherResponse.ok) throw new Error(`Weather API: ${weatherResponse.status}`);
-                const weatherData = await weatherResponse.json();
-
-                const sunrise = new Date(weatherData.sys.sunrise * 1000).toLocaleTimeString('en-US', { timeZone: 'America/Chicago', hour: '2-digit', minute: '2-digit' });
-                const sunset = new Date(weatherData.sys.sunset * 1000).toLocaleTimeString('en-US', { timeZone: 'America/Chicago', hour: '2-digit', minute: '2-digit' });
-                const temp = Math.round(weatherData.main.temp);
-                const desc = weatherData.weather[0].description.charAt(0).toUpperCase() + weatherData.weather[0].description.slice(1);
-
-                const today = new Date().toISOString().split('T')[0].replace(/-/g, '');
-                const tomorrow = new Date(Date.now() + 86400000).toISOString().split('T')[0].replace(/-/g, '');
-                const tideUrl = `https://api.tidesandcurrents.noaa.gov/api/prod/datagetter?begin_date=${today}&end_date=${tomorrow}&station=8745557&product=predictions&datum=MLLW&units=english&time_zone=lst_ldt&format=json`;
-                const tideResponse = await fetch(tideUrl, { signal: AbortSignal.timeout(10000) });
-                if (!tideResponse.ok) throw new Error(`Tides API: ${tideResponse.status}`);
-                const tideData = await tideResponse.json();
-                const tides = tideData.predictions || [];
-                const low = tides.find(t => t.type === 'L') || { t: 'N/A', v: 'N/A' };
-                const high = tides.find(t => t.type === 'H') || { t: 'N/A', v: 'N/A' };
-
-                grid.innerHTML = '';
-                grid.innerHTML += `<div class="happening-card"><h3>Biloxi Weather</h3><p>${temp}°F – ${desc}</p></div>`;
-                grid.innerHTML += `<div class="happening-card"><h3>Sunrise & Sunset</h3><p>Sunrise: ${sunrise} CST<br>Sunset: ${sunset} CST</p></div>`;
-                grid.innerHTML += `<div class="happening-card"><h3>Tides (Biloxi Bay)</h3><p>Low: ${low.t} (~${low.v} ft)<br>High: ${high.t} (~${high.v} ft)</p><p>Times approximate – check NOAA</p></div>`;
-            } catch (err) {
-                console.error('Weather/Tides error:', err);
-                grid.innerHTML = '<p class="loading-placeholder">Live data unavailable (API issue). Using fallback.</p>';
-            }
-        }
+        // Optional: Add live news fetch later (commented out for now)
+        // async function fetchLocalNews() { ... }
     </script>
 </body>
 </html>
