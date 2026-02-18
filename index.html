@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Johnny B AI - Gulf Coast Hub | Biloxi Bot for Locals</title>
     <meta name="description" content="Chat with Johnny B, your Mississippi Gulf Coast AI assistant. Daily events, news, weather, tides, sunrise/sunset, parades & happenings from New Orleans to Mobile.">
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Exo+2:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -414,11 +415,11 @@
             document.getElementById('chat-input').value = '';
         });
 
-        // Load fallback content immediately to avoid white/empty state
+        // Load fallback content first to avoid white/empty state
         window.addEventListener('load', () => {
             populateFallbackNews();
             fetchWeatherAndTides();
-            fetchLocalNews(); // attempt live
+            fetchLocalNews(); // attempt live fetch
         });
 
         function populateFallbackNews() {
@@ -433,10 +434,9 @@
             fallbacks.forEach(item => {
                 const card = document.createElement('div');
                 card.className = 'happening-card';
-                const proxyImg = `https://johnnyb.ai/cdn-cgi/image/format=auto,width=320,quality=80/${encodeURIComponent(item.img)}`;
                 card.innerHTML = `
                     <div class="news-img-container">
-                        <img src="${proxyImg}" alt="${item.title}" loading="lazy">
+                        <img src="${item.img}" alt="${item.title}" loading="lazy">
                     </div>
                     <div class="card-content">
                         <h3>${item.title}</h3>
@@ -465,8 +465,7 @@
                         const card = document.createElement('div');
                         card.className = 'happening-card';
 
-                        let originalImg = article.image || getFallbackImage(article.title);
-                        let imgSrc = `https://johnnyb.ai/cdn-cgi/image/format=auto,width=320,quality=80/${encodeURIComponent(originalImg)}`;
+                        let imgSrc = article.image || getFallbackImage(article.title);
 
                         card.innerHTML = `
                             <div class="news-img-container">
@@ -484,7 +483,7 @@
                 }
             } catch (error) {
                 console.error('News fetch error:', error);
-                // Keep fallback visible
+                // Keep fallback content
             }
         }
 
@@ -505,6 +504,7 @@
         // Weather & Tides fetch
         async function fetchWeatherAndTides() {
             const grid = document.getElementById('weather-grid');
+            grid.innerHTML = '<p class="loading-placeholder">Updating weather & tides...</p>';
             try {
                 const weatherApiKey = '021c238d88874c0fd6ddd743196361ee';
                 const lat = 30.3960;
