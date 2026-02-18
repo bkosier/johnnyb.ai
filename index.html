@@ -470,7 +470,7 @@
             const grid = document.getElementById('weather-grid');
             grid.innerHTML = '<p>Loading weather, sunrise, sunset & tides...</p>';
             try {
-                const weatherApiKey = 'YOUR_OPENWEATHERMAP_KEY';
+                const weatherApiKey = '021c238d88874c0fd6ddd743196361ee';
                 const lat = 30.3960;
                 const lon = -88.8853;
                 const weatherResponse = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${weatherApiKey}&units=imperial`);
@@ -504,4 +504,5 @@
     </script>
 </body>
 </html>
+
 
