@@ -143,62 +143,27 @@
             text-align: center;
             text-shadow: 0 0 25px var(--accent-glow);
         }
-        .features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 2.8rem;
-        }
-        .feature {
-            background: linear-gradient(145deg, var(--secondary), #0a0a20);
-            padding: 2.8rem;
-            border-radius: 18px;
-            border: 1px solid #222;
-            transition: all 0.4s ease;
-        }
-        .feature:hover {
-            transform: translateY(-14px) scale(1.04);
-            box-shadow: 0 0 50px rgba(0,240,255,0.3);
-            border-color: var(--accent);
-        }
-        #news {
-            background: var(--secondary);
-            padding: 3rem 2rem;
-            border-radius: 18px;
-            margin: 4rem auto;
-            max-width: 1100px;
-            box-shadow: 0 0 30px rgba(0,240,255,0.15);
-        }
-        .news-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.8rem;
-        }
-        .news-card {
-            background: #0a0a20;
-            padding: 1.5rem;
-            border-radius: 12px;
-            border: 1px solid #222;
-            transition: all 0.3s;
-        }
-        .news-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 0 25px var(--accent-glow);
-        }
-        .news-card h4 { color: var(--accent); margin-bottom: 0.8rem; }
-        .news-card a { color: #a0d0ff; text-decoration: none; }
+        /* Ticker - Centered Fix */
         #ticker {
             background: rgba(0,0,0,0.7);
-            padding: 1.5rem;
+            padding: 1.5rem 1rem;
             overflow: hidden;
             white-space: nowrap;
             border-top: 2px solid var(--accent);
             border-bottom: 2px solid var(--accent);
-            margin: 4rem 0;
+            margin: 4rem auto;
+            max-width: 100%;
             box-shadow: 0 0 30px var(--accent-glow);
+            text-align: center;
+        }
+        .ticker-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
         .ticker-content {
             display: inline-block;
-            animation: ticker 60s linear infinite;
+            animation: ticker 80s linear infinite;
             font-size: 1.3rem;
             font-weight: 500;
         }
@@ -206,9 +171,43 @@
             0% { transform: translateX(100%); }
             100% { transform: translateX(-100%); }
         }
-        .ticker-item { margin: 0 3rem; }
+        .ticker-item { margin: 0 2.5rem; }
         .positive { color: var(--positive); }
         .negative { color: var(--negative); }
+        /* Rotating Tech News Carousel */
+        #tech-news {
+            background: var(--secondary);
+            padding: 3rem 2rem;
+            border-radius: 18px;
+            margin: 4rem auto;
+            max-width: 1100px;
+            box-shadow: 0 0 30px rgba(0,240,255,0.15);
+            position: relative;
+            overflow: hidden;
+        }
+        .carousel {
+            position: relative;
+            height: 300px; /* Adjust as needed */
+        }
+        .news-slide {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            transition: opacity 1s ease;
+            padding: 1.5rem;
+            background: #0a0a20;
+            border-radius: 12px;
+            border: 1px solid #222;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
+        }
+        .news-slide.active { opacity: 1; }
+        .news-slide h3 { color: var(--accent); margin-bottom: 1rem; font-size: 1.8rem; }
+        .news-slide p { margin-bottom: 1rem; }
+        .news-slide a { color: #a0d0ff; text-decoration: none; font-weight: bold; }
+        .news-slide:hover { box-shadow: 0 0 25px var(--accent-glow); }
         footer {
             text-align: center;
             padding: 5rem 1rem;
@@ -216,7 +215,7 @@
             border-top: 1px solid #333;
             font-size: 1.05rem;
         }
-        /* Password Screen with Cyberpunk Robot BG */
+        /* Password Screen */
         #password-screen {
             position: fixed;
             inset: 0;
@@ -278,8 +277,7 @@
             <ul id="nav-menu">
                 <li><a href="#hero">Home</a></li>
                 <li><a href="#about">About</a></li>
-                <li><a href="#features">Features</a></li>
-                <li><a href="#news">EV News</a></li>
+                <li><a href="#tech-news">Tech News</a></li>
                 <li><a href="#ticker">Market Ticker</a></li>
             </ul>
         </nav>
@@ -299,63 +297,51 @@
         <p>Johnny B is my personal AI assistant, running on the open-source <strong>OpenClaw</strong> framework. From my home base in Biloxi, Mississippi, it handles real-world tasks via chat apps like WhatsApp, Telegram, or Slack — everything from inbox triage and calendar management to research, deal hunting, and custom automations. Think of it as a Gulf Coast–tough digital sidekick that molts your workload so you don't have to.</p>
     </section>
 
-    <section id="features">
-        <h2>Core Features</h2>
-        <div class="features">
-            <div class="feature">
-                <h3>Email & Calendar Mastery</h3>
-                <p>Reads, summarizes, replies, schedules meetings, and resolves conflicts autonomously.</p>
+    <!-- Rotating Tech News Carousel (replaces Core Features) -->
+    <section id="tech-news">
+        <h2>Latest Tech News (Rotating – Feb 2026)</h2>
+        <div class="carousel">
+            <div class="news-slide active">
+                <h3>Humanoid Robots Perform Advanced Martial Arts at Chinese New Year Gala</h3>
+                <p>Two dozen humanoids showcased flips, parkour, and spins — firsts in continuous freestyle routines. Highlights China's rapid robotics push.</p>
+                <a href="https://www.aljazeera.com/news/2026/2/17/humanoid-robots-perform-advanced-martial-arts-at-chinese-new-year-gala" target="_blank">Read more (Al Jazeera)</a>
             </div>
-            <div class="feature">
-                <h3>Research & Execution</h3>
-                <p>Digs deep on any topic, books travel, orders supplies, even negotiates small deals.</p>
+            <div class="news-slide">
+                <h3>Physical AI & Humanoid Robotics: Next Industrial Frontier</h3>
+                <p>Market projected to grow from $2-3B to $200B in a decade; driven by labor shortages and productivity gains up to 150% at human parity.</p>
+                <a href="https://fii-institute.org/publication/the-future-of-artificial-intelligence-physical-ai-and-humanoid-robotics-are-the-next-industrial-frontier" target="_blank">Read more (FII Institute)</a>
             </div>
-            <div class="feature">
-                <h3>Multi-Platform Chat</h3>
-                <p>Works wherever you already message — no new apps required.</p>
+            <div class="news-slide">
+                <h3>AI in Robotics: New Position Paper from IFR</h3>
+                <p>AI-powered robots moving from labs to real world; fueled by tech giants forecasting multitrillion-dollar market.</p>
+                <a href="https://ifr.org/ifr-press-releases/news/ai-in-robotics-new-position-paper" target="_blank">Read more (IFR)</a>
             </div>
-            <div class="feature">
-                <h3>Local & Extensible</h3>
-                <p>Runs on your hardware for privacy; open community adds endless new skills.</p>
+            <div class="news-slide">
+                <h3>Chip Crisis & Memory Hoarding Push Consumer Tech Prices Sky-High</h3>
+                <p>AI giants stockpiling memory chips causing hyperinflation in prices for phones, laptops, consoles.</p>
+                <a href="https://www.wsj.com/podcasts/whats-news/chip-crisis-sends-consumer-tech-prices-soaring/bce14e96-2dfe-4eee-b5e4-18f73cdcf30c" target="_blank">Read more (WSJ)</a>
             </div>
-        </div>
-    </section>
-
-    <section id="news">
-        <h2>Tesla & EV News (Latest – February 2026)</h2>
-        <div class="news-grid">
-            <div class="news-card">
-                <h4>Tesla Robotaxi Adds 5 More Crashes in Austin – 4x Worse Than Humans</h4>
-                <p>Source: Electrek • <a href="https://electrek.co/2026/02/17/tesla-robotaxi-adds-5-more-crashes-austin-month-4x-worse-than-humans/" target="_blank">Read more</a></p>
+            <div class="news-slide">
+                <h3>OpenAI Voice Tech Selected for Pentagon Drone Swarm Competition</h3>
+                <p>OpenAI's advancements integrated into military drone applications, signaling deeper AI-defense crossover.</p>
+                <a href="https://www.latimes.com/business/story/2026-02-17/openai-voice-technology-picked-for-pentagons-drone-swarm-competition" target="_blank">Read more (LA Times)</a>
             </div>
-            <div class="news-card">
-                <h4>Model Y Named Best Electric Vehicle of 2026 by Consumer Reports</h4>
-                <p>Source: Not a Tesla App • <a href="https://www.notateslaapp.com/news/3569/tesla-model-y-named-best-electric-vehicle-of-2026-by-consumer-reports" target="_blank">Read more</a></p>
-            </div>
-            <div class="news-card">
-                <h4>Ford to Adopt Tesla-Like 48V Tech in Next EV Pickup</h4>
-                <p>Source: CNBC • <a href="https://www.cnbc.com/2026/02/17/ford-ev-platform-pickup-truck.html" target="_blank">Read more</a></p>
-            </div>
-            <div class="news-card">
-                <h4>Tesla Discontinues Model S/X – Focus Shifts to Optimus & Cybercab</h4>
-                <p>Source: The Independent • <a href="https://www.the-independent.com/cars/electric-vehicles/tesla-sales-elon-musk-evs-future-b2919796.html" target="_blank">Read more</a></p>
-            </div>
-            <div class="news-card">
-                <h4>2026 Cybertruck Cyberbeast: Free Supercharging & High Specs</h4>
-                <p>Source: EV Charging Stations • <a href="https://evchargingstations.com/chargingnews/2026-tesla-cybertruck" target="_blank">Read more</a></p>
-            </div>
-            <div class="news-card">
-                <h4>Tesla Sales Slump in Europe – Leadership Changes Underway</h4>
-                <p>Source: IG International • <a href="https://www.ig.com/en/news-and-trade-ideas/where-to-next-for-the-tesla-share-price-amid-leadership-shake-up-260212" target="_blank">Read more</a></p>
+            <div class="news-slide">
+                <h3>HII Teams with Path Robotics for AI Welding in Shipbuilding</h3>
+                <p>Physical AI integration to accelerate U.S. Navy ship production throughput by 15%+ in 2026.</p>
+                <a href="https://hii.com/news/hii-teams-with-path-robotics-to-integrate-physical-ai-into-manned-and-unmanned-shipbuilding" target="_blank">Read more (HII)</a>
             </div>
         </div>
     </section>
 
+    <!-- Centered Ticker -->
     <section id="ticker">
-        <div class="ticker-content" id="ticker-content">
-            S&P 500 (^GSPC): ~5,950 +0.4%   |   Nasdaq (^IXIC): ~19,200 +0.6%   |   TSLA: $410.63 -1.63%   |   FOUR: N/A (Shift4)   |   ABAT: N/A (American Battery)   |   AMZN: $201.15 +1.19%   |   RIVN: ~$12-15 (est.)   |   
-            <!-- Duplicated for seamless loop -->
-            S&P 500 (^GSPC): ~5,950 +0.4%   |   Nasdaq (^IXIC): ~19,200 +0.6%   |   TSLA: $410.63 -1.63%   |   FOUR: N/A (Shift4)   |   ABAT: N/A (American Battery)   |   AMZN: $201.15 +1.19%   |   RIVN: ~$12-15 (est.)   |   
+        <div class="ticker-wrapper">
+            <div class="ticker-content" id="ticker-content">
+                S&P 500 (^GSPC): ~5,950 +0.4%   |   Nasdaq (^IXIC): ~19,200 +0.6%   |   TSLA: $410.63 -1.63%   |   FOUR: N/A (Shift4)   |   ABAT: N/A (American Battery)   |   AMZN: $201.15 +1.19%   |   RIVN: ~$12-15 (est.)   |   
+                <!-- Duplicated for seamless infinite scroll -->
+                S&P 500 (^GSPC): ~5,950 +0.4%   |   Nasdaq (^IXIC): ~19,200 +0.6%   |   TSLA: $410.63 -1.63%   |   FOUR: N/A (Shift4)   |   ABAT: N/A (American Battery)   |   AMZN: $201.15 +1.19%   |   RIVN: ~$12-15 (est.)   |   
+            </div>
         </div>
     </section>
 
@@ -405,6 +391,26 @@
             });
         }, { threshold: 0.15 });
         sections.forEach(sec => observer.observe(sec));
+
+        // Rotating Tech News Carousel
+        const slides = document.querySelectorAll('.news-slide');
+        let currentSlide = 0;
+
+        function showNextSlide() {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (currentSlide + 1) % slides.length;
+            slides[currentSlide].classList.add('active');
+        }
+
+        if (slides.length > 0) {
+            // Start with first active (already set in HTML)
+            setInterval(showNextSlide, 8000); // Rotate every 8 seconds
+        }
+
+        // Optional: Pause on hover
+        document.querySelector('.carousel').addEventListener('mouseenter', () => {
+            // Could pause interval if desired
+        });
     </script>
 </body>
 </html>
