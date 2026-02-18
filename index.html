@@ -414,11 +414,11 @@
             document.getElementById('chat-input').value = '';
         });
 
-        // Load initial fallback content to avoid empty/flashing state
+        // Load initial fallback content to avoid white/empty state
         window.addEventListener('load', () => {
             populateFallbackNews();
             fetchWeatherAndTides();
-            fetchLocalNews(); // attempt live fetch
+            fetchLocalNews(); // try live
         });
 
         function populateFallbackNews() {
@@ -433,9 +433,10 @@
             fallbacks.forEach(item => {
                 const card = document.createElement('div');
                 card.className = 'happening-card';
+                const proxyImg = `https://johnnyb.ai/cdn-cgi/image/format=auto,width=320,quality=80/${encodeURIComponent(item.img)}`;
                 card.innerHTML = `
                     <div class="news-img-container">
-                        <img src="${item.img}" alt="${item.title}" loading="lazy">
+                        <img src="${proxyImg}" alt="${item.title}" loading="lazy">
                     </div>
                     <div class="card-content">
                         <h3>${item.title}</h3>
@@ -454,7 +455,7 @@
                 const today = new Date().toISOString().split('T')[0];
                 const query = 'Biloxi OR Gulfport OR Pascagoula OR "Mardi Gras" OR "New Orleans" OR Mobile lang:en';
                 const url = `https://gnews.io/api/v4/search?q=${encodeURIComponent(query)}&from=${today}&lang=en&country=us&max=6&apikey=${apiKey}`;
-                const response = await fetch(url, { signal: AbortSignal.timeout(5000) }); // Timeout to prevent hanging
+                const response = await fetch(url, { signal: AbortSignal.timeout(8000) });
                 if (!response.ok) throw new Error(`GNews ${response.status}`);
                 const data = await response.json();
 
@@ -465,11 +466,11 @@
                         card.className = 'happening-card';
 
                         let originalImg = article.image || getFallbackImage(article.title);
-                        let imgSrc = `https://images.weserv.nl/?url=${encodeURIComponent(originalImg)}&w=320&h=180&fit=cover`;
+                        let imgSrc = originalImg ? `https://johnnyb.ai/cdn-cgi/image/format=auto,width=320,quality=80/${encodeURIComponent(originalImg)}` : 'https://via.placeholder.com/320x180?text=News+Image';
 
                         card.innerHTML = `
                             <div class="news-img-container">
-                                <img src="${imgSrc}" alt="${article.title || 'News image'}" loading="lazy" 
+                                <img src="${imgSrc}" alt="${article.title || 'Gulf Coast news'}" loading="lazy" 
                                      onerror="this.src='https://via.placeholder.com/320x180?text=News+Image'; this.alt='Fallback image';">
                             </div>
                             <div class="card-content">
@@ -510,7 +511,7 @@
                 const lat = 30.3960;
                 const lon = -88.8853;
                 const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${weatherApiKey}&units=imperial`;
-                const weatherResponse = await fetch(weatherUrl, { signal: AbortSignal.timeout(5000) });
+                const weatherResponse = await fetch(weatherUrl, { signal: AbortSignal.timeout(8000) });
                 if (!weatherResponse.ok) throw new Error(`Weather API: ${weatherResponse.status}`);
                 const weatherData = await weatherResponse.json();
 
@@ -522,7 +523,7 @@
                 const today = new Date().toISOString().split('T')[0].replace(/-/g, '');
                 const tomorrow = new Date(Date.now() + 86400000).toISOString().split('T')[0].replace(/-/g, '');
                 const tideUrl = `https://api.tidesandcurrents.noaa.gov/api/prod/datagetter?begin_date=${today}&end_date=${tomorrow}&station=8745557&product=predictions&datum=MLLW&units=english&time_zone=lst_ldt&format=json`;
-                const tideResponse = await fetch(tideUrl, { signal: AbortSignal.timeout(5000) });
+                const tideResponse = await fetch(tideUrl, { signal: AbortSignal.timeout(8000) });
                 if (!tideResponse.ok) throw new Error(`Tides API: ${tideResponse.status}`);
                 const tideData = await tideResponse.json();
                 const tides = tideData.predictions || [];
@@ -535,23 +536,8 @@
                 grid.innerHTML += `<div class="happening-card"><h3>Tides (Biloxi Bay)</h3><p>Low: ${low.t} (~${low.v} ft)<br>High: ${high.t} (~${high.v} ft)</p><p>Times approximate – check NOAA</p></div>`;
             } catch (err) {
                 console.error('Weather/Tides error:', err);
-                fallbackWeatherAndTides(grid);
+                grid.innerHTML = '<p class="loading-placeholder">Live data unavailable (API issue). Using fallback.</p>';
             }
-        }
-
-        function fallbackWeatherAndTides(grid) {
-            grid.innerHTML = '';
-            const fallbackData = {
-                weather: 'Mid-70s°F, dry/sunny/partly cloudy — perfect parade weather. No rain expected.',
-                sunrise: '~6:33–6:34 AM CST',
-                sunset: '~5:45 PM CST',
-                daylight: '~11 hours 11 minutes',
-                lowTide: '~8:06–8:09 AM (~0.0 to -0.03 ft)',
-                highTide: '~11:06–11:55 PM (~0.71–1.0 ft)'
-            };
-            grid.innerHTML += `<div class="happening-card"><h3>Biloxi Weather</h3><p>${fallbackData.weather}</p></div>`;
-            grid.innerHTML += `<div class="happening-card"><h3>Sunrise & Sunset</h3><p>Sunrise: ${fallbackData.sunrise}<br>Sunset: ${fallbackData.sunset}<br>Daylight: ${fallbackData.daylight}</p></div>`;
-            grid.innerHTML += `<div class="happening-card"><h3>Tides (Biloxi Bay Area)</h3><p>Low Tide: ${fallbackData.lowTide}<br>High Tide: ${fallbackData.highTide}</p><p>Note: Times approximate; check NOAA for exact.</p></div>`;
         }
     </script>
 </body>
