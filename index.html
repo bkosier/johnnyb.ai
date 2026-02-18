@@ -399,7 +399,7 @@
             const grid = document.getElementById('news-grid');
             grid.innerHTML = '<p>Loading latest Gulf Coast news with images...</p>';
             try {
-                const apiKey = 'YOUR_NEWSAPI_KEY'; // ← Replace with your actual NewsAPI key
+                const apiKey = '0558581fae2f44b3ba3d19561003a3ef'; // ← Replace with your actual NewsAPI key
                 const today = new Date().toISOString().split('T')[0];
                 const query = 'Biloxi OR Gulfport OR Pascagoula OR Mardi Gras OR New Orleans OR Mobile';
                 const response = await fetch(`https://newsapi.org/v2/everything?q=${encodeURIComponent(query)}&from=${today}&sortBy=publishedAt&apiKey=${apiKey}`);
@@ -504,3 +504,4 @@
     </script>
 </body>
 </html>
+
