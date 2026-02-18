@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Johnny B AI - Gulf Coast Hub | Biloxi Bot for Locals</title>
-    <meta name="description" content="Chat with Johnny B, your Mississippi Gulf Coast AI assistant. Daily events, news, weather, parades & happenings from New Orleans to Mobile.">
+    <meta name="description" content="Chat with Johnny B, your Mississippi Gulf Coast AI assistant. Daily events, news, weather, tides, sunrise/sunset, parades & happenings from New Orleans to Mobile.">
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,7 +17,7 @@
             --accent-glow: rgba(0, 240, 255, 0.7);
             --secondary: #0f0f1a;
             --overlay: rgba(5, 5, 5, 0.78);
-            --mardi: #a020f0; /* Mardi Gras purple accent */
+            --mardi: #a020f0; /* Mardi Gras purple */
             --positive: #00ff9d;
             --negative: #ff4d4d;
         }
@@ -117,6 +117,7 @@
         .happening-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; }
         .happening-card { background: var(--secondary); padding: 1.5rem; border-radius: 12px; border: 1px solid #333; transition: all 0.3s; }
         .happening-card:hover { transform: translateY(-8px); box-shadow: 0 0 25px var(--accent-glow); }
+        .happening-card a { color: var(--accent); text-decoration: none; display: block; margin-top: 0.8rem; font-weight: bold; }
         footer { text-align: center; padding: 4rem 1rem; background: var(--secondary); border-top: 1px solid #333; }
         @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
     </style>
@@ -130,7 +131,7 @@
                 <li><a href="#chat-section">Chat with Johnny B</a></li>
                 <li><a href="#events">Events & Parades</a></li>
                 <li><a href="#news">Local News</a></li>
-                <li><a href="#weather">Weather & Tides</a></li>
+                <li><a href="#weather">Weather, Sunrise & Tides</a></li>
                 <li><a href="#tips">Deals & Tips</a></li>
             </ul>
         </nav>
@@ -141,13 +142,13 @@
         <div class="hero-overlay"></div>
         <div class="hero-content">
             <h1>Johnny B AI</h1>
-            <p>Your Mississippi Gulf Coast Assistant — Events, News, Weather & Local Vibes from New Orleans to Mobile</p>
+            <p>Your Mississippi Gulf Coast Assistant — Events, News, Weather, Sunrise/Tides & Local Vibes from New Orleans to Mobile</p>
         </div>
     </section>
 
     <section id="about">
         <h2>Welcome to the Gulf Coast Hub</h2>
-        <p>Johnny B here — your Biloxi-based OpenClaw AI, helping locals stay in the know. Chat for personalized tips, see today's happenings (Happy Fat Tuesday, y'all!), check parades, news, weather, and deals across the coast. Built for the Gulf Coast community — from Biloxi to Gulfport, Pascagoula, New Orleans, and Mobile.</p>
+        <p>Johnny B here — your Biloxi-based OpenClaw AI, helping locals stay in the know. Chat for personalized tips, see today's happenings (Happy Fat Tuesday, y'all!), check parades, news, weather/sunrise/tides, and deals across the coast. Built for the Gulf Coast community — from Biloxi to Gulfport, Pascagoula, New Orleans, and Mobile.</p>
     </section>
 
     <section id="chat-section">
@@ -164,7 +165,7 @@
             <div class="slide active">
                 <h3>Gulf Coast Carnival Association Mardi Gras Parade – Biloxi</h3>
                 <p>1 p.m. – Downtown Biloxi. Beads, floats, music — main Fat Tuesday event on the MS Coast!</p>
-                <a href="https://www.msgcca.org/" target="_blank">Details</a>
+                <a href="https://www.msgcca.org/" target="_blank">Details & Route</a>
             </div>
             <div class="slide">
                 <h3>Mardi Gras Day Parades – Mobile, AL</h3>
@@ -182,66 +183,75 @@
                 <a href="https://www.facebook.com/chandeleurbrew" target="_blank">Details</a>
             </div>
             <div class="slide">
-                <h3>Post-Fat Tuesday Vibes</h3>
-                <p>Many parades wrap today — catch replays or head to after-parties in Ocean Springs or Pascagoula.</p>
+                <h3>Krewe of Real People – Bay St. Louis</h3>
+                <p>1 p.m. – Downtown and backatown Bay St. Louis parade rolling today.</p>
+                <a href="https://www.sunherald.com/entertainment/mardi-gras/article314685483.html" target="_blank">More</a>
             </div>
         </div>
     </section>
 
     <section id="news">
-        <h2>Local News Snapshot</h2>
+        <h2>Local News Headlines (Click to Read Full Articles)</h2>
         <div class="happening-grid">
             <div class="happening-card">
                 <h3>Fat Tuesday Fun Underway in Biloxi</h3>
                 <p>GCCA parade rolling soon — live coverage on WLOX. Good times, no rain!</p>
-                <a href="https://www.wlox.com/" target="_blank">WLOX</a>
+                <a href="https://www.wlox.com/" target="_blank">WLOX - Read Article</a>
             </div>
             <div class="happening-card">
-                <h3>Mardi Gras Parades Across Coast</h3>
-                <p>From New Orleans to Mobile — traffic alerts in effect. Stay safe out there.</p>
-                <a href="https://www.sunherald.com/" target="_blank">Sun Herald</a>
+                <h3>Nearly 500,000 Celebrate Mobile Mardi Gras Under Beautiful Skies</h3>
+                <p>Mobile lucky with mild temps and no rain — huge crowds for parades.</p>
+                <a href="https://www.fox10tv.com/2026/02/17/nearly-500000-celebrate-mobile-mardi-gras-under-beautiful-skies/" target="_blank">FOX10 - Read Article</a>
             </div>
             <div class="happening-card">
-                <h3>Gulf Coast Carnival Highlights</h3>
-                <p>Recent Jackson County parade recap — floats, beads, community spirit.</p>
-                <a href="https://www.wxxv25.com/" target="_blank">WXXV</a>
+                <h3>Gulf Coast Carnival Association's Fat Tuesday Parade Brings 'Pop' to Biloxi</h3>
+                <p>118th year, over 100,000 expected, million+ beads — theme “Pop”.</p>
+                <a href="https://www.wlox.com/2026/02/09/gulf-coast-carnival-associations-fat-tuesday-parade-bring-pop-biloxi" target="_blank">WLOX - Read Article</a>
+            </div>
+            <div class="happening-card">
+                <h3>Black Mardi Gras Krewe Brings Bay St. Louis Together</h3>
+                <p>Krewe of Real People keeps tradition alive — real slice of Mississippi.</p>
+                <a href="https://www.sunherald.com/entertainment/mardi-gras/article314685483.html" target="_blank">Sun Herald - Read Article</a>
             </div>
         </div>
+        <!-- Auto-update placeholder: Replace static with JS fetch from NewsAPI -->
+        <!-- Example: fetch('https://newsapi.org/v2/everything?q=Biloxi+OR+Gulfport+OR+Pascagoula+Mardi+Gras&from=2026-02-17&sortBy=publishedAt&apiKey=YOUR_KEY') -->
     </section>
 
     <section id="weather">
-        <h2>Weather & Tides Today</h2>
+        <h2>Weather, Sunrise & Tides Today (Biloxi Focus – Feb 17, 2026)</h2>
         <div class="happening-grid">
             <div class="happening-card">
-                <h3>Biloxi</h3>
-                <p>Mild & dry — mid-70s, perfect for parades. High tide ~3:15 PM.</p>
+                <h3>Biloxi Weather</h3>
+                <p>Mid-70s°F, mild & dry/sunny/partly cloudy — perfect parade weather. No rain expected.</p>
             </div>
             <div class="happening-card">
-                <h3>New Orleans</h3>
-                <p>72°F partly cloudy — great for Zulu/Rex. Minor flood watch possible.</p>
+                <h3>Sunrise & Sunset</h3>
+                <p>Sunrise: ~6:33–6:34 AM CST<br>Sunset: ~5:45 PM CST<br>Daylight: ~11 hours 11 minutes</p>
             </div>
             <div class="happening-card">
-                <h3>Mobile</h3>
-                <p>74°F breezy — ideal for Order of Myths. Low tide ~6:45 AM.</p>
+                <h3>Tides (Biloxi Bay Area)</h3>
+                <p>Low Tide: ~8:06–8:09 AM (~0.0 to -0.03 ft)<br>High Tide: ~11:06–11:55 PM (~0.71–1.0 ft)</p>
+                <p>Note: Times approximate; check NOAA for exact station data.</p>
             </div>
         </div>
-        <p style="text-align: center; margin-top: 1.5rem;">(Live data via API integration coming — current as of Feb 17, 2026 reports)</p>
+        <p style="text-align: center; margin-top: 1.5rem; font-size: 0.95rem;">(Static snapshot from reliable sources; enable API fetch for live updates: OpenWeatherMap for weather/sunrise, NOAA Tides API for tides)</p>
     </section>
 
     <section id="tips">
         <h2>Local Tips & Deals</h2>
         <div class="happening-grid">
             <div class="happening-card">
-                <h3>Parade Viewing</h3>
-                <p>Avoid I-10 during peak hours — use alt routes or Amtrak Mardi Gras Service.</p>
+                <h3>Parade Viewing & Traffic</h3>
+                <p>Avoid I-10 during peak hours — use alt routes or Amtrak Mardi Gras Service. Stay hydrated!</p>
             </div>
             <div class="happening-card">
                 <h3>Casino & Seafood Deals</h3>
                 <p>Biloxi specials: Free play for Mardi Gras visitors; fresh Gulf shrimp in Pascagoula markets.</p>
             </div>
             <div class="happening-card">
-                <h3>Safety Note</h3>
-                <p>Stay hydrated, watch for crowds, and catch beads responsibly!</p>
+                <h3>Safety & Fun Tips</h3>
+                <p>Catch beads responsibly; check for crowd updates. Happy Mardi Gras, y'all!</p>
             </div>
         </div>
     </section>
@@ -284,20 +294,20 @@
         }
         if (slides.length > 0) setInterval(rotateSlides, 6000);
 
-        // Chat placeholder
+        // Chat placeholder with local flavor
         document.getElementById('chat-send').addEventListener('click', () => {
             const input = document.getElementById('chat-input').value.trim();
             if (!input) return;
             const responseDiv = document.getElementById('chat-response');
             let reply = "Johnny B here from Biloxi! ";
-            if (input.toLowerCase().includes('parade') || input.toLowerCase().includes('mardi gras')) {
-                reply += "Fat Tuesday is poppin' today! GCCA parade in Biloxi at 1 p.m., Zulu/Rex in NOLA, Order of Myths in Mobile. Traffic heavy on I-10 — plan ahead!";
-            } else if (input.toLowerCase().includes('weather') || input.toLowerCase().includes('rain')) {
-                reply += "Lookin' good out there — mid-70s, dry for parades. No rain in sight, perfect beach or bead-catchin' weather.";
-            } else if (input.toLowerCase().includes('biloxi') || input.toLowerCase().includes('gulfport')) {
-                reply += "Biloxi/Gulfport vibes strong! Check casino deals or fresh seafood spots. What's your plan today?";
+            if (input.toLowerCase().includes('parade') || input.toLowerCase().includes('mardi gras') || input.toLowerCase().includes('fat tuesday')) {
+                reply += "Fat Tuesday is rockin' today! GCCA parade in Biloxi at 1 p.m., Zulu/Rex in NOLA, Order of Myths in Mobile. Traffic heavy — plan ahead and catch those beads!";
+            } else if (input.toLowerCase().includes('weather') || input.toLowerCase().includes('rain') || input.toLowerCase().includes('sunrise') || input.toLowerCase().includes('tide')) {
+                reply += "Coast lookin' good: Mid-70s, dry & sunny for parades. Sunrise ~6:33 AM, sunset ~5:45 PM. Tides: Low ~8:06 AM, high ~11:06 PM. Perfect day out there!";
+            } else if (input.toLowerCase().includes('biloxi') || input.toLowerCase().includes('gulfport') || input.toLowerCase().includes('pascagoula')) {
+                reply += "Right here on the MS Coast! Biloxi/Gulfport/Pascagoula vibes strong today. Casino deals poppin', fresh seafood, parades rollin'. What's your plan?";
             } else {
-                reply += "On '" + input + "' — hit me with more details and I'll dig up the Gulf Coast scoop!";
+                reply += "On '" + input + "' — hit me with more details and I'll grab the latest Gulf Coast scoop for ya!";
             }
             responseDiv.innerHTML = reply;
             document.getElementById('chat-input').value = '';
