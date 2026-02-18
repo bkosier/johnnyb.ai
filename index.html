@@ -414,18 +414,18 @@
             document.getElementById('chat-input').value = '';
         });
 
-        // Load initial fallback content to avoid white/empty state
+        // Load fallback content immediately to avoid white/empty state
         window.addEventListener('load', () => {
             populateFallbackNews();
             fetchWeatherAndTides();
-            fetchLocalNews(); // try live
+            fetchLocalNews(); // attempt live
         });
 
         function populateFallbackNews() {
             const grid = document.getElementById('news-grid');
             grid.innerHTML = '';
             const fallbacks = [
-                { title: 'Fat Tuesday Fun Underway in Biloxi', desc: 'GCCA parade rolling soon — live coverage on WLOX.', url: 'https://www.wlox.com/', img: 'https://images.unsplash.com/photo-1618005182384-a83a8bd0d5c8?auto=format&fit=crop&w=800&q=80' },
+                { title: 'Fat Tuesday Fun Underway in Biloxi', desc: 'GCCA parade rolling soon — live coverage on WLOX. Good times, no rain!', url: 'https://www.wlox.com/', img: 'https://images.unsplash.com/photo-1618005182384-a83a8bd0d5c8?auto=format&fit=crop&w=800&q=80' },
                 { title: 'Mobile Mardi Gras Celebration Draws Huge Crowds', desc: 'Beautiful skies and nearly 500,000 attendees.', url: 'https://www.fox10tv.com/2026/02/17/nearly-500000-celebrate-mobile-mardi-gras-under-beautiful-skies/', img: 'https://images.unsplash.com/photo-1618005182384-a83a8bd0d5c8?auto=format&fit=crop&w=800&q=80' },
                 { title: 'GCCA Fat Tuesday Parade Brings Pop Theme to Biloxi', desc: '118th year, massive bead drop expected.', url: 'https://www.wlox.com/2026/02/09/gulf-coast-carnival-associations-fat-tuesday-parade-bring-pop-biloxi', img: 'https://images.unsplash.com/photo-1618005182384-a83a8bd0d5c8?auto=format&fit=crop&w=800&q=80' },
                 { title: 'Krewe of Real People Keeps Tradition Alive', desc: 'Bay St. Louis Black Mardi Gras celebration.', url: 'https://www.sunherald.com/entertainment/mardi-gras/article314685483.html', img: 'https://images.unsplash.com/photo-1618005182384-a83a8bd0d5c8?auto=format&fit=crop&w=800&q=80' }
@@ -455,7 +455,7 @@
                 const today = new Date().toISOString().split('T')[0];
                 const query = 'Biloxi OR Gulfport OR Pascagoula OR "Mardi Gras" OR "New Orleans" OR Mobile lang:en';
                 const url = `https://gnews.io/api/v4/search?q=${encodeURIComponent(query)}&from=${today}&lang=en&country=us&max=6&apikey=${apiKey}`;
-                const response = await fetch(url, { signal: AbortSignal.timeout(8000) });
+                const response = await fetch(url, { signal: AbortSignal.timeout(10000) });
                 if (!response.ok) throw new Error(`GNews ${response.status}`);
                 const data = await response.json();
 
@@ -466,7 +466,7 @@
                         card.className = 'happening-card';
 
                         let originalImg = article.image || getFallbackImage(article.title);
-                        let imgSrc = originalImg ? `https://johnnyb.ai/cdn-cgi/image/format=auto,width=320,quality=80/${encodeURIComponent(originalImg)}` : 'https://via.placeholder.com/320x180?text=News+Image';
+                        let imgSrc = `https://johnnyb.ai/cdn-cgi/image/format=auto,width=320,quality=80/${encodeURIComponent(originalImg)}`;
 
                         card.innerHTML = `
                             <div class="news-img-container">
@@ -484,7 +484,7 @@
                 }
             } catch (error) {
                 console.error('News fetch error:', error);
-                // Keep fallback content
+                // Keep fallback visible
             }
         }
 
@@ -505,13 +505,12 @@
         // Weather & Tides fetch
         async function fetchWeatherAndTides() {
             const grid = document.getElementById('weather-grid');
-            grid.innerHTML = '<p class="loading-placeholder">Updating weather & tides...</p>';
             try {
                 const weatherApiKey = '021c238d88874c0fd6ddd743196361ee';
                 const lat = 30.3960;
                 const lon = -88.8853;
                 const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${weatherApiKey}&units=imperial`;
-                const weatherResponse = await fetch(weatherUrl, { signal: AbortSignal.timeout(8000) });
+                const weatherResponse = await fetch(weatherUrl, { signal: AbortSignal.timeout(10000) });
                 if (!weatherResponse.ok) throw new Error(`Weather API: ${weatherResponse.status}`);
                 const weatherData = await weatherResponse.json();
 
@@ -523,7 +522,7 @@
                 const today = new Date().toISOString().split('T')[0].replace(/-/g, '');
                 const tomorrow = new Date(Date.now() + 86400000).toISOString().split('T')[0].replace(/-/g, '');
                 const tideUrl = `https://api.tidesandcurrents.noaa.gov/api/prod/datagetter?begin_date=${today}&end_date=${tomorrow}&station=8745557&product=predictions&datum=MLLW&units=english&time_zone=lst_ldt&format=json`;
-                const tideResponse = await fetch(tideUrl, { signal: AbortSignal.timeout(8000) });
+                const tideResponse = await fetch(tideUrl, { signal: AbortSignal.timeout(10000) });
                 if (!tideResponse.ok) throw new Error(`Tides API: ${tideResponse.status}`);
                 const tideData = await tideResponse.json();
                 const tides = tideData.predictions || [];
