@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Johnny B AI - Your Mississippi-Based OpenClaw Assistant</title>
-    <meta name="description" content="Johnny B: Personal AI assistant powered by OpenClaw, built in Biloxi, Mississippi. Smart, local, always ready.">
+    <title>Johnny B AI - Gulf Coast Hub | Biloxi Bot for Locals</title>
+    <meta name="description" content="Chat with Johnny B, your Mississippi Gulf Coast AI assistant. Daily events, news, weather, parades & happenings from New Orleans to Mobile.">
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,6 +17,7 @@
             --accent-glow: rgba(0, 240, 255, 0.7);
             --secondary: #0f0f1a;
             --overlay: rgba(5, 5, 5, 0.78);
+            --mardi: #a020f0; /* Mardi Gras purple accent */
             --positive: #00ff9d;
             --negative: #ff4d4d;
         }
@@ -27,7 +28,6 @@
             color: var(--text);
             line-height: 1.6;
             overflow-x: hidden;
-            position: relative;
         }
         body::before {
             content: '';
@@ -40,7 +40,6 @@
             z-index: -1;
             opacity: 0.4;
         }
-        h1, h2, h3 { font-family: 'Orbitron', sans-serif; font-weight: 700; }
         header {
             position: fixed;
             top: 0;
@@ -48,19 +47,20 @@
             background: rgba(15, 15, 26, 0.92);
             backdrop-filter: blur(12px);
             z-index: 200;
-            padding: 1.2rem 0;
+            padding: 1rem 0;
         }
         nav {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
+            justify-content: center;
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 2rem;
+            padding: 0 1rem;
         }
         nav ul {
             display: flex;
-            gap: 2.8rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1.5rem 2.5rem;
             list-style: none;
         }
         nav a {
@@ -69,19 +69,11 @@
             font-weight: 500;
             transition: all 0.3s;
         }
-        nav a:hover { color: var(--accent); text-shadow: 0 0 12px var(--accent-glow); }
+        nav a:hover { color: var(--mardi); text-shadow: 0 0 12px var(--accent-glow); }
         .hamburger { display: none; font-size: 2.2rem; cursor: pointer; color: var(--accent); }
         @media (max-width: 768px) {
             .hamburger { display: block; }
-            nav ul { 
-                display: none; 
-                flex-direction: column; 
-                position: absolute; 
-                top: 100%; left: 0; right: 0; 
-                background: var(--secondary);
-                padding: 1.5rem;
-                gap: 1.8rem;
-            }
+            nav ul { display: none; flex-direction: column; background: var(--secondary); padding: 1rem; gap: 1.5rem; }
             nav ul.active { display: flex; }
         }
         #hero {
@@ -98,187 +90,48 @@
             inset: 0;
             background: url('https://images.pexels.com/photos/2599244/pexels-photo-2599244.jpeg') center/cover no-repeat;
         }
-        .hero-overlay { 
-            position: absolute; inset: 0; 
-            background: var(--overlay); 
-            z-index: 1; 
-        }
+        .hero-overlay { position: absolute; inset: 0; background: var(--overlay); z-index: 1; }
         .hero-content {
             position: relative;
             z-index: 2;
             max-width: 1000px;
-            padding: 2.5rem;
+            padding: 2rem;
             animation: pulse 6s infinite alternate ease-in-out;
         }
-        @keyframes pulse {
-            0% { text-shadow: 0 0 20px var(--accent-glow); }
-            100% { text-shadow: 0 0 40px var(--accent-glow), 0 0 80px rgba(0,240,255,0.4); }
-        }
-        .hero-content h1 {
-            font-size: clamp(4.5rem, 11vw, 8rem);
-            margin-bottom: 1.2rem;
-            text-shadow: 0 0 35px var(--accent-glow), 0 0 70px var(--accent-glow);
-            letter-spacing: 0.06em;
-        }
-        .hero-content p {
-            font-size: clamp(1.6rem, 5vw, 2.4rem);
-            text-shadow: 0 0 18px rgba(0,0,0,0.9);
-        }
-        section {
-            padding: 9rem 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-            opacity: 0;
-            transform: translateY(60px);
-            transition: opacity 1.2s ease, transform 1.2s ease;
-        }
-        section.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        h2 {
-            font-size: 3.5rem;
-            margin-bottom: 2.2rem;
-            color: var(--accent);
-            text-align: center;
-            text-shadow: 0 0 25px var(--accent-glow);
-        }
-        /* Ticker - Centered Fix */
-        #ticker {
-            background: rgba(0,0,0,0.7);
-            padding: 1.5rem 1rem;
-            overflow: hidden;
-            white-space: nowrap;
-            border-top: 2px solid var(--accent);
-            border-bottom: 2px solid var(--accent);
-            margin: 4rem auto;
-            max-width: 100%;
-            box-shadow: 0 0 30px var(--accent-glow);
-            text-align: center;
-        }
-        .ticker-wrapper {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        .ticker-content {
-            display: inline-block;
-            animation: ticker 80s linear infinite;
-            font-size: 1.3rem;
-            font-weight: 500;
-        }
-        @keyframes ticker {
-            0% { transform: translateX(100%); }
-            100% { transform: translateX(-100%); }
-        }
-        .ticker-item { margin: 0 2.5rem; }
-        .positive { color: var(--positive); }
-        .negative { color: var(--negative); }
-        /* Rotating Tech News Carousel */
-        #tech-news {
-            background: var(--secondary);
-            padding: 3rem 2rem;
-            border-radius: 18px;
-            margin: 4rem auto;
-            max-width: 1100px;
-            box-shadow: 0 0 30px rgba(0,240,255,0.15);
-            position: relative;
-            overflow: hidden;
-        }
-        .carousel {
-            position: relative;
-            height: 300px; /* Adjust as needed */
-        }
-        .news-slide {
-            position: absolute;
-            inset: 0;
-            opacity: 0;
-            transition: opacity 1s ease;
-            padding: 1.5rem;
-            background: #0a0a20;
-            border-radius: 12px;
-            border: 1px solid #222;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            text-align: center;
-        }
-        .news-slide.active { opacity: 1; }
-        .news-slide h3 { color: var(--accent); margin-bottom: 1rem; font-size: 1.8rem; }
-        .news-slide p { margin-bottom: 1rem; }
-        .news-slide a { color: #a0d0ff; text-decoration: none; font-weight: bold; }
-        .news-slide:hover { box-shadow: 0 0 25px var(--accent-glow); }
-        footer {
-            text-align: center;
-            padding: 5rem 1rem;
-            background: var(--secondary);
-            border-top: 1px solid #333;
-            font-size: 1.05rem;
-        }
-        /* Password Screen */
-        #password-screen {
-            position: fixed;
-            inset: 0;
-            background: url('https://images.pexels.com/photos/2599244/pexels-photo-2599244.jpeg') center/cover no-repeat fixed;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            z-index: 9999;
-            transition: opacity 1s ease;
-        }
-        #password-screen.hidden { opacity: 0; pointer-events: none; }
-        #password-form {
-            background: rgba(15, 15, 26, 0.85);
-            backdrop-filter: blur(8px);
-            padding: 3.5rem;
-            border-radius: 18px;
-            border: 2px solid var(--accent);
-            max-width: 520px;
-            width: 92%;
-            text-align: center;
-            box-shadow: 0 0 40px var(--accent-glow);
-        }
-        #password-input {
-            width: 100%;
-            margin: 1.8rem 0;
-            padding: 1.3rem;
-            font-size: 1.4rem;
-            text-align: center;
-            background: #000;
-            color: var(--accent);
-            border: 2px solid #444;
-            border-radius: 10px;
-        }
-        #error-msg { color: #ff4d4d; margin-top: 1.2rem; font-weight: bold; font-size: 1.1rem; }
-        @media (prefers-reduced-motion: reduce) {
-            * { transition: none !important; animation: none !important; transform: none !important; }
-        }
+        @keyframes pulse { 0% { text-shadow: 0 0 20px var(--accent-glow); } 100% { text-shadow: 0 0 40px var(--accent-glow), 0 0 80px rgba(160,32,240,0.4); } }
+        .hero-content h1 { font-size: clamp(4rem, 10vw, 7rem); margin-bottom: 1rem; color: var(--mardi); text-shadow: 0 0 35px var(--accent-glow); }
+        .hero-content p { font-size: clamp(1.5rem, 4vw, 2rem); }
+        section { padding: 6rem 1.5rem; max-width: 1200px; margin: auto; opacity: 0; transform: translateY(50px); transition: all 1s ease; }
+        section.visible { opacity: 1; transform: translateY(0); }
+        h2 { font-size: 3rem; color: var(--mardi); text-align: center; margin-bottom: 2rem; text-shadow: 0 0 15px var(--accent-glow); }
+        #chat-section { background: var(--secondary); padding: 3rem 2rem; border-radius: 16px; box-shadow: 0 0 30px var(--accent-glow); }
+        #chat-input { width: 100%; height: 120px; background: #0a0a20; color: var(--text); border: 1px solid var(--accent); padding: 1rem; border-radius: 8px; font-size: 1.1rem; }
+        #chat-send { background: linear-gradient(90deg, var(--accent), var(--mardi)); color: #000; padding: 1rem; border: none; border-radius: 8px; font-size: 1.2rem; cursor: pointer; width: 100%; margin-top: 1rem; transition: all 0.3s; }
+        #chat-send:hover { transform: scale(1.03); box-shadow: 0 0 20px var(--accent-glow); }
+        #chat-response { margin-top: 2rem; background: #111; padding: 1.5rem; border-radius: 12px; border: 1px solid var(--accent); min-height: 100px; }
+        .carousel { position: relative; height: 280px; overflow: hidden; margin: 2rem 0; }
+        .slide { position: absolute; inset: 0; opacity: 0; transition: opacity 1s; padding: 1.5rem; background: #0a0a20; border-radius: 12px; text-align: center; border: 1px solid #333; }
+        .slide.active { opacity: 1; }
+        .slide h3 { color: var(--mardi); margin-bottom: 0.8rem; }
+        .slide a { color: var(--accent); text-decoration: none; font-weight: bold; }
+        .happening-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; }
+        .happening-card { background: var(--secondary); padding: 1.5rem; border-radius: 12px; border: 1px solid #333; transition: all 0.3s; }
+        .happening-card:hover { transform: translateY(-8px); box-shadow: 0 0 25px var(--accent-glow); }
+        footer { text-align: center; padding: 4rem 1rem; background: var(--secondary); border-top: 1px solid #333; }
+        @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
     </style>
 </head>
 <body>
-
-    <!-- Password Screen -->
-    <div id="password-screen">
-        <div id="password-form">
-            <h1 style="color: var(--accent); font-size: 3.2rem; margin-bottom: 1.2rem;">Access Johnny B AI</h1>
-            <p>Enter password to continue</p>
-            <form id="pwd-form">
-                <input type="password" id="password-input" placeholder="Password" required autofocus>
-                <button type="submit" style="margin-top: 1.8rem; width: 100%;">Enter</button>
-            </form>
-            <div id="error-msg"></div>
-        </div>
-    </div>
 
     <header>
         <nav>
             <div class="hamburger" onclick="toggleNav()">☰</div>
             <ul id="nav-menu">
-                <li><a href="#hero">Home</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#tech-news">Tech News</a></li>
-                <li><a href="#ticker">Market Ticker</a></li>
+                <li><a href="#chat-section">Chat with Johnny B</a></li>
+                <li><a href="#events">Events & Parades</a></li>
+                <li><a href="#news">Local News</a></li>
+                <li><a href="#weather">Weather & Tides</a></li>
+                <li><a href="#tips">Deals & Tips</a></li>
             </ul>
         </nav>
     </header>
@@ -288,85 +141,116 @@
         <div class="hero-overlay"></div>
         <div class="hero-content">
             <h1>Johnny B AI</h1>
-            <p>Your Mississippi Gulf Coast-Based AI Assistant — Built in Biloxi, Ready 24/7</p>
+            <p>Your Mississippi Gulf Coast Assistant — Events, News, Weather & Local Vibes from New Orleans to Mobile</p>
         </div>
     </section>
 
     <section id="about">
-        <h2>About Johnny B Bot</h2>
-        <p>Johnny B Bot is my personal AI assistant, running on the open-source <strong>OpenClaw</strong> framework. From my home base on the Mississippi Gulf Coast, it handles real-world tasks via chat apps like WhatsApp, Telegram, or Slack — everything from inbox triage and calendar management to research, deal hunting, and custom automations. Think of it as a Gulf Coast–tough digital sidekick that molts your workload so you don't have to.</p>
+        <h2>Welcome to the Gulf Coast Hub</h2>
+        <p>Johnny B here — your Biloxi-based OpenClaw AI, helping locals stay in the know. Chat for personalized tips, see today's happenings (Happy Fat Tuesday, y'all!), check parades, news, weather, and deals across the coast. Built for the Gulf Coast community — from Biloxi to Gulfport, Pascagoula, New Orleans, and Mobile.</p>
     </section>
 
-    <!-- Rotating Tech News Carousel (replaces Core Features) -->
-    <section id="tech-news">
-        <h2>Latest Tech News</h2>
+    <section id="chat-section">
+        <h2>Chat with Johnny B</h2>
+        <p>Ask anything Gulf Coast-related: "What's on tonight in Biloxi?", "Best parade route?", "Traffic update for I-10?"</p>
+        <textarea id="chat-input" placeholder="Type your question here..."></textarea>
+        <button id="chat-send">Send to Johnny B</button>
+        <div id="chat-response">Johnny B: Hey from Biloxi! What's up on the coast today? (Real responses powered by OpenClaw soon)</div>
+    </section>
+
+    <section id="events">
+        <h2>Today's Gulf Coast Happenings & Parades (Feb 17, 2026 – Fat Tuesday)</h2>
         <div class="carousel">
-            <div class="news-slide active">
-                <h3>Humanoid Robots Perform Advanced Martial Arts at Chinese New Year Gala</h3>
-                <p>Two dozen humanoids showcased flips, parkour, and spins — firsts in continuous freestyle routines. Highlights China's rapid robotics push.</p>
-                <a href="https://www.aljazeera.com/news/2026/2/17/humanoid-robots-perform-advanced-martial-arts-at-chinese-new-year-gala" target="_blank">Read more (Al Jazeera)</a>
+            <div class="slide active">
+                <h3>Gulf Coast Carnival Association Mardi Gras Parade – Biloxi</h3>
+                <p>1 p.m. – Downtown Biloxi. Beads, floats, music — main Fat Tuesday event on the MS Coast!</p>
+                <a href="https://www.msgcca.org/" target="_blank">Details</a>
             </div>
-            <div class="news-slide">
-                <h3>Physical AI & Humanoid Robotics: Next Industrial Frontier</h3>
-                <p>Market projected to grow from $2-3B to $200B in a decade; driven by labor shortages and productivity gains up to 150% at human parity.</p>
-                <a href="https://fii-institute.org/publication/the-future-of-artificial-intelligence-physical-ai-and-humanoid-robotics-are-the-next-industrial-frontier" target="_blank">Read more (FII Institute)</a>
+            <div class="slide">
+                <h3>Mardi Gras Day Parades – Mobile, AL</h3>
+                <p>Order of Myths, Joe Cain Day echoes — family-friendly revelry in downtown Mobile.</p>
+                <a href="https://www.mobile.org/events/mardi-gras" target="_blank">Schedule</a>
             </div>
-            <div class="news-slide">
-                <h3>AI in Robotics: New Position Paper from IFR</h3>
-                <p>AI-powered robots moving from labs to real world; fueled by tech giants forecasting multitrillion-dollar market.</p>
-                <a href="https://ifr.org/ifr-press-releases/news/ai-in-robotics-new-position-paper" target="_blank">Read more (IFR)</a>
+            <div class="slide">
+                <h3>New Orleans Mardi Gras Climax</h3>
+                <p>Rex, Zulu, and street celebrations — massive crowds, king cake, music everywhere.</p>
+                <a href="https://www.neworleans.com/mardigras" target="_blank">More</a>
             </div>
-            <div class="news-slide">
-                <h3>Chip Crisis & Memory Hoarding Push Consumer Tech Prices Sky-High</h3>
-                <p>AI giants stockpiling memory chips causing hyperinflation in prices for phones, laptops, consoles.</p>
-                <a href="https://www.wsj.com/podcasts/whats-news/chip-crisis-sends-consumer-tech-prices-soaring/bce14e96-2dfe-4eee-b5e4-18f73cdcf30c" target="_blank">Read more (WSJ)</a>
+            <div class="slide">
+                <h3>Chandy Gras – Gulfport</h3>
+                <p>11 a.m.–2 p.m. at Chandeleur Island Brewing: music, vendors, dog contest.</p>
+                <a href="https://www.facebook.com/chandeleurbrew" target="_blank">Details</a>
             </div>
-            <div class="news-slide">
-                <h3>OpenAI Voice Tech Selected for Pentagon Drone Swarm Competition</h3>
-                <p>OpenAI's advancements integrated into military drone applications, signaling deeper AI-defense crossover.</p>
-                <a href="https://www.latimes.com/business/story/2026-02-17/openai-voice-technology-picked-for-pentagons-drone-swarm-competition" target="_blank">Read more (LA Times)</a>
-            </div>
-            <div class="news-slide">
-                <h3>HII Teams with Path Robotics for AI Welding in Shipbuilding</h3>
-                <p>Physical AI integration to accelerate U.S. Navy ship production throughput by 15%+ in 2026.</p>
-                <a href="https://hii.com/news/hii-teams-with-path-robotics-to-integrate-physical-ai-into-manned-and-unmanned-shipbuilding" target="_blank">Read more (HII)</a>
+            <div class="slide">
+                <h3>Post-Fat Tuesday Vibes</h3>
+                <p>Many parades wrap today — catch replays or head to after-parties in Ocean Springs or Pascagoula.</p>
             </div>
         </div>
     </section>
 
-    <!-- Centered Ticker -->
-    <section id="ticker">
-        <div class="ticker-wrapper">
-            <div class="ticker-content" id="ticker-content">
-                S&P 500 (^GSPC): ~5,950 +0.4%   |   Nasdaq (^IXIC): ~19,200 +0.6%   |   TSLA: $410.63 -1.63%   |   FOUR: N/A (Shift4)   |   ABAT: N/A (American Battery)   |   AMZN: $201.15 +1.19%   |   RIVN: ~$12-15 (est.)   |   
-                <!-- Duplicated for seamless infinite scroll -->
-                S&P 500 (^GSPC): ~5,950 +0.4%   |   Nasdaq (^IXIC): ~19,200 +0.6%   |   TSLA: $410.63 -1.63%   |   FOUR: N/A (Shift4)   |   ABAT: N/A (American Battery)   |   AMZN: $201.15 +1.19%   |   RIVN: ~$12-15 (est.)   |   
+    <section id="news">
+        <h2>Local News Snapshot</h2>
+        <div class="happening-grid">
+            <div class="happening-card">
+                <h3>Fat Tuesday Fun Underway in Biloxi</h3>
+                <p>GCCA parade rolling soon — live coverage on WLOX. Good times, no rain!</p>
+                <a href="https://www.wlox.com/" target="_blank">WLOX</a>
+            </div>
+            <div class="happening-card">
+                <h3>Mardi Gras Parades Across Coast</h3>
+                <p>From New Orleans to Mobile — traffic alerts in effect. Stay safe out there.</p>
+                <a href="https://www.sunherald.com/" target="_blank">Sun Herald</a>
+            </div>
+            <div class="happening-card">
+                <h3>Gulf Coast Carnival Highlights</h3>
+                <p>Recent Jackson County parade recap — floats, beads, community spirit.</p>
+                <a href="https://www.wxxv25.com/" target="_blank">WXXV</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="weather">
+        <h2>Weather & Tides Today</h2>
+        <div class="happening-grid">
+            <div class="happening-card">
+                <h3>Biloxi</h3>
+                <p>Mild & dry — mid-70s, perfect for parades. High tide ~3:15 PM.</p>
+            </div>
+            <div class="happening-card">
+                <h3>New Orleans</h3>
+                <p>72°F partly cloudy — great for Zulu/Rex. Minor flood watch possible.</p>
+            </div>
+            <div class="happening-card">
+                <h3>Mobile</h3>
+                <p>74°F breezy — ideal for Order of Myths. Low tide ~6:45 AM.</p>
+            </div>
+        </div>
+        <p style="text-align: center; margin-top: 1.5rem;">(Live data via API integration coming — current as of Feb 17, 2026 reports)</p>
+    </section>
+
+    <section id="tips">
+        <h2>Local Tips & Deals</h2>
+        <div class="happening-grid">
+            <div class="happening-card">
+                <h3>Parade Viewing</h3>
+                <p>Avoid I-10 during peak hours — use alt routes or Amtrak Mardi Gras Service.</p>
+            </div>
+            <div class="happening-card">
+                <h3>Casino & Seafood Deals</h3>
+                <p>Biloxi specials: Free play for Mardi Gras visitors; fresh Gulf shrimp in Pascagoula markets.</p>
+            </div>
+            <div class="happening-card">
+                <h3>Safety Note</h3>
+                <p>Stay hydrated, watch for crowds, and catch beads responsibly!</p>
             </div>
         </div>
     </section>
 
     <footer>
-        <p>© 2026 Johnny B • Biloxi, Mississippi • Powered by <a href="https://johnnyb.tech" style="color: var(--accent);">Johnny B</a></p>
+        <p>© 2026 Brad Kosier • Biloxi, Mississippi • Powered by OpenClaw • Happy Mardi Gras!</p>
     </footer>
 
     <script>
-        // Password logic
-        const correctPassword = "johnnyb";
-        const pwdScreen = document.getElementById("password-screen");
-        const pwdForm = document.getElementById("pwd-form");
-        const errorMsg = document.getElementById("error-msg");
-
-        pwdForm.addEventListener("submit", (e) => {
-            e.preventDefault();
-            const input = document.getElementById("password-input").value;
-            if (input === correctPassword) {
-                pwdScreen.classList.add("hidden");
-                setTimeout(() => { pwdScreen.style.display = "none"; }, 1000);
-            } else {
-                errorMsg.textContent = "Incorrect password. Try again.";
-            }
-        });
-
         // Hamburger menu
         function toggleNav() {
             document.getElementById("nav-menu").classList.toggle("active");
@@ -374,44 +258,50 @@
 
         // Smooth scrolling
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
+            anchor.addEventListener('click', e => {
                 e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+                document.querySelector(anchor.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
                 if (window.innerWidth <= 768) toggleNav();
             });
         });
 
-        // Section fade-in observer
+        // Section fade-in
         const sections = document.querySelectorAll('section');
-        const observer = new IntersectionObserver((entries) => {
+        const observer = new IntersectionObserver(entries => {
             entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
+                if (entry.isIntersecting) entry.target.classList.add('visible');
             });
-        }, { threshold: 0.15 });
+        }, { threshold: 0.1 });
         sections.forEach(sec => observer.observe(sec));
 
-        // Rotating Tech News Carousel
-        const slides = document.querySelectorAll('.news-slide');
+        // Carousel rotation
+        const slides = document.querySelectorAll('.slide');
         let currentSlide = 0;
-
-        function showNextSlide() {
+        function rotateSlides() {
             slides[currentSlide].classList.remove('active');
             currentSlide = (currentSlide + 1) % slides.length;
             slides[currentSlide].classList.add('active');
         }
+        if (slides.length > 0) setInterval(rotateSlides, 6000);
 
-        if (slides.length > 0) {
-            // Start with first active (already set in HTML)
-            setInterval(showNextSlide, 8000); // Rotate every 8 seconds
-        }
-
-        // Optional: Pause on hover
-        document.querySelector('.carousel').addEventListener('mouseenter', () => {
-            // Could pause interval if desired
+        // Chat placeholder
+        document.getElementById('chat-send').addEventListener('click', () => {
+            const input = document.getElementById('chat-input').value.trim();
+            if (!input) return;
+            const responseDiv = document.getElementById('chat-response');
+            let reply = "Johnny B here from Biloxi! ";
+            if (input.toLowerCase().includes('parade') || input.toLowerCase().includes('mardi gras')) {
+                reply += "Fat Tuesday is poppin' today! GCCA parade in Biloxi at 1 p.m., Zulu/Rex in NOLA, Order of Myths in Mobile. Traffic heavy on I-10 — plan ahead!";
+            } else if (input.toLowerCase().includes('weather') || input.toLowerCase().includes('rain')) {
+                reply += "Lookin' good out there — mid-70s, dry for parades. No rain in sight, perfect beach or bead-catchin' weather.";
+            } else if (input.toLowerCase().includes('biloxi') || input.toLowerCase().includes('gulfport')) {
+                reply += "Biloxi/Gulfport vibes strong! Check casino deals or fresh seafood spots. What's your plan today?";
+            } else {
+                reply += "On '" + input + "' — hit me with more details and I'll dig up the Gulf Coast scoop!";
+            }
+            responseDiv.innerHTML = reply;
+            document.getElementById('chat-input').value = '';
         });
     </script>
 </body>
 </html>
-
